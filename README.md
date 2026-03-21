@@ -1,19 +1,18 @@
 # Smart-Crowd-Monitoring-System
 AI-based crowd density monitoring system for real-time crowd analysis using webcam or uploaded videos. The system generates density maps, estimates crowd count, and sends automated email alerts with screenshot evidence when crowd exceeds a configurable threshold.
 
-##Live Demo
+## Live Demo
 
 https://smart-crowd-monitoring-system-nztwzhte2pwfrasklogusd.streamlit.app/
 
-Features
-Real-time crowd density estimation
-Webcam and video file input support
-Density map and overlay visualization
-Crowd count estimation
-Threshold-based alert detection
-Automated email alerts with screenshot attachment
-Streamlit-based interactive dashboard
-## Screenshots
+## Features
+-Real-time crowd density estimation
+-Webcam and video file input support
+-Density map and overlay visualization
+-Crowd count estimation
+-Threshold-based alert detection
+-Automated email alerts with screenshot attachment
+-Streamlit-based interactive dashboard
 
 ### Dashboard
 ![Dashboard](dashboard.png)
@@ -24,7 +23,7 @@ Streamlit-based interactive dashboard
 ### Crowd Alert Detection
 ![Alert](email_alert.png)
 
-##Technologies Used
+## Technologies Used
 -Python
 -Streamlit
 -OpenCV
@@ -33,20 +32,20 @@ Streamlit-based interactive dashboard
 -NumPy
 -Installation
 
-##Clone repository
+## Clone repository
 
 git clone https://github.com/mahalakshmitetala/Smart-Crowd-Monitoring-System.git
 cd Smart-Crowd-Monitoring-System
 
-Install dependencies
+## Install dependencies
 
 pip install -r requirements.txt
 
-Run application
+## Run application
 
 streamlit run ui_dashboard.py
 
-##Application Use Cases
+## Application Use Cases
 -Crowd monitoring in public events
 Railway stations and bus terminals
 -Religious gatherings
