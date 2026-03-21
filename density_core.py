@@ -1,5 +1,7 @@
 import torch
 import cv2
+import os
+import gdown
 import numpy as np
 import torchvision.transforms as transforms
 from csrnet_model import CustomCSRNet
@@ -8,9 +10,17 @@ from yolo_people_counter import count_people_yolo
 # ---------------- DEVICE ----------------
 device = torch.device("cpu")
 
+# ---------------- MODEL DOWNLOAD ----------------
+MODEL_PATH = "best_finetuned.pth"
+
+if not os.path.exists(MODEL_PATH):
+    print("Downloading model from Google Drive...")
+    url = "https://drive.google.com/uc?id=1ooViiQStzWMaJGcTY1e3aiPZXNJ7Yd2L"
+    gdown.download(url, MODEL_PATH, quiet=False)
+
 # ---------------- LOAD CSRNET ----------------
 csrnet = CustomCSRNet().to(device)
-csrnet.load_state_dict(torch.load("best_finetuned.pth", map_location=device))
+csrnet.load_state_dict(torch.load(MODEL_PATH, map_location=device))
 csrnet.eval()
 
 # ---------------- IMAGENET NORMALIZATION ----------------
@@ -47,15 +57,12 @@ def run_density(frame, is_webcam=False):
 
     # ---------- STEP 2: ADAPTIVE FUSION ----------
     if csr_count < 15:
-        # Sparse → YOLO dominates
         final_count = max(csr_count * SPARSE_CALIBRATION, yolo_count)
 
     elif csr_count < 60:
-        # Medium → blend CSRNet + YOLO
         final_count = 0.5 * (csr_count * SPARSE_CALIBRATION) + 0.5 * yolo_count
 
     else:
-        # Dense → trust CSRNet trend, clamp with YOLO
         final_count = min(csr_count, yolo_count * 5)
 
     # ---------- SAFETY ----------
