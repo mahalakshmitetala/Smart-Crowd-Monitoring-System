@@ -31,21 +31,6 @@ https://smart-crowd-monitoring-system-nztwzhte2pwfrasklogusd.streamlit.app/
 - Deep Learning (CSRNet)
 - NumPy
 
-## Installation
-
-## Clone repository
-
-git clone https://github.com/mahalakshmitetala/Smart-Crowd-Monitoring-System.git
-cd Smart-Crowd-Monitoring-System
-
-## Install dependencies
-
-pip install -r requirements.txt
-
-## Run application
-
-streamlit run ui_dashboard.py
-
 ## Application Use Cases
 - Crowd monitoring in public events
 - Railway stations and bus terminals
