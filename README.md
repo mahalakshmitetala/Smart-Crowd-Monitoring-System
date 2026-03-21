@@ -3,7 +3,7 @@ AI-based crowd density monitoring system for real-time crowd analysis using webc
 
 ## Live Demo
 
-https://smart-crowd-monitoring-system-nztwzhte2pwfrasklogusd.streamlit.app/
+[https://smart-crowd-monitoring-system-nztwzhte2pwfrasklogusd.streamlit.app/](https://smart-crowd-monitoring-system-nztwzhte2pwfraslkogsud.streamlit.app/)
 
 ## Features
 - Real-time crowd density estimation
