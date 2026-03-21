@@ -1,5 +1,8 @@
 import streamlit as st
 import cv2
+import numpy as np
+from PIL import Image
+
 from density_core import run_density
 from alert_db import init_db, add_email, get_emails
 from alert_mailer import send_alert
@@ -99,7 +102,7 @@ if input_mode == "Video File":
 
                     for e in get_emails():
                         try:
-                            send_alert(e, count, ov)   # FIXED
+                            send_alert(e, count, ov)
                         except Exception as ex:
                             st.error(f"Email error: {ex}")
 
@@ -123,13 +126,12 @@ if input_mode == "Live Webcam":
 
     if st.session_state.webcam_running:
 
-        cap = cv2.VideoCapture(0)
+        camera = st.camera_input("Use Webcam")
 
-        while st.session_state.webcam_running:
+        if camera is not None:
 
-            ret, frame = cap.read()
-            if not ret:
-                break
+            image = Image.open(camera)
+            frame = np.array(image)
 
             o, d, ov, count = run_density(frame, is_webcam=True)
 
@@ -151,11 +153,9 @@ if input_mode == "Live Webcam":
 
                     for e in get_emails():
                         try:
-                            send_alert(e, count, ov)   # FIXED
+                            send_alert(e, count, ov)
                         except Exception as ex:
                             st.error(f"Email error: {ex}")
 
             else:
                 alert_box.success("SAFE")
-
-        cap.release()
