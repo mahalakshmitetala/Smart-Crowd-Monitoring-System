@@ -6,7 +6,6 @@ import cv2
 SENDER_EMAIL = "mahalakshmitetala0909@gmail.com"
 APP_PASSWORD = "kqujqjdyyryccoaj"
 
-
 def send_alert(to_email, count, density_img):
 
     now = datetime.now()
