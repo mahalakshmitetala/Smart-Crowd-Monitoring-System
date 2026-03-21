@@ -24,6 +24,7 @@ AI-based crowd density monitoring system for real-time crowd analysis using webc
 ![Alert](email_alert.png)
 
 ## Technologies Used
+
 - Python
 - Streamlit
 - OpenCV
@@ -32,6 +33,7 @@ AI-based crowd density monitoring system for real-time crowd analysis using webc
 - NumPy
 
 ## Application Use Cases
+
 - Crowd monitoring in public events
 - Railway stations and bus terminals
 - Religious gatherings
