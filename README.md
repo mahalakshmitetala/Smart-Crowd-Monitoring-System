@@ -15,7 +15,7 @@ Automated email alerts with screenshot attachment
 Streamlit-based interactive dashboard
 ## Screenshots
 
-### Video Processing Output
+### Dashboard
 ![Dashboard](dashboard.png)
 
 ### Crowd Alert Detection
