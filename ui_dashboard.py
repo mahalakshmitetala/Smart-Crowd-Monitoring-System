@@ -55,9 +55,8 @@ over_box = col3.empty()
 count_box = st.empty()
 alert_box = st.empty()
 
-# ==================================================
-# ================= VIDEO MODE ======================
-# ==================================================
+# ================= VIDEO MODE =====================
+
 if input_mode == "Video File":
 
     uploaded = st.file_uploader("Upload Video", ["mp4", "avi", "mov"])
@@ -104,9 +103,9 @@ if input_mode == "Video File":
             else:
                 alert_box.success("SAFE")
 
-# ==================================================
+
 # ================= WEBCAM MODE ====================
-# ==================================================
+
 if input_mode == "Live Webcam":
 
     camera = st.camera_input("Use Webcam")
