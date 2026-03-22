@@ -1,7 +1,5 @@
 import streamlit as st
 import cv2
-import numpy as np
-from PIL import Image
 import time
 
 from density_core import run_density
@@ -22,20 +20,21 @@ st.title("🚦 Smart Crowd Monitoring System")
 if "video_done" not in st.session_state:
     st.session_state.video_done = False
 
+if "webcam_running" not in st.session_state:
+    st.session_state.webcam_running = False
+
 if "last_alert_time" not in st.session_state:
     st.session_state.last_alert_time = 0
 
-ALERT_COOLDOWN = 15   # seconds (better for demo)
+ALERT_COOLDOWN = 120  # seconds
 
 # ---------------- SIDEBAR ----------------
 st.sidebar.header("📧 Alert Emails")
-
 email = st.sidebar.text_input("Add Email")
 
 if st.sidebar.button("Save Email"):
     if email:
         add_email(email)
-        st.sidebar.success("Email added")
 
 # ---------------- CONTROLS ----------------
 input_mode = st.radio(
@@ -45,7 +44,7 @@ input_mode = st.radio(
 
 threshold = st.slider("Alert Threshold", 1, 300, 10)
 
-# ---------------- DISPLAY AREAS ----------------
+# ---------------- DISPLAY ----------------
 col1, col2, col3 = st.columns(3)
 
 orig_box = col1.empty()
@@ -56,7 +55,7 @@ count_box = st.empty()
 alert_box = st.empty()
 
 # ==================================================
-# ================= VIDEO MODE ======================
+# ================= VIDEO MODE =====================
 # ==================================================
 if input_mode == "Video File":
 
@@ -64,7 +63,6 @@ if input_mode == "Video File":
 
     if uploaded:
         st.session_state.video_done = False
-
         with open("temp_video.mp4", "wb") as f:
             f.write(uploaded.read())
 
@@ -89,7 +87,6 @@ if input_mode == "Video File":
 
             count_box.metric("👥 Crowd Count", int(round(count)))
 
-            # -------- ALERT ----------
             if count > threshold:
                 alert_box.error("⚠️ CROWD ALERT")
 
@@ -109,50 +106,46 @@ if input_mode == "Video File":
 # ==================================================
 if input_mode == "Live Webcam":
 
-    camera = st.camera_input("Use Webcam")
+    col_btn1, col_btn2 = st.columns(2)
 
-    if camera is not None:
-<<<<<<< HEAD
-        import time
-=======
->>>>>>> a3bab4b (final milestone 4 with email cooldown, webcam modes, video mode)
+    with col_btn1:
+        if st.button("▶ Start Webcam"):
+            st.session_state.webcam_running = True
 
-        image = Image.open(camera)
-        frame = np.array(image)
+    with col_btn2:
+        if st.button("⏹ Stop Webcam"):
+            st.session_state.webcam_running = False
 
-        o, d, ov, count = run_density(frame, is_webcam=True)
+    if st.session_state.webcam_running:
 
-        orig_box.image(o, channels="BGR", caption="Original")
-        dens_box.image(d, channels="BGR", caption="Density Map")
-        over_box.image(ov, channels="BGR", caption="Overlay")
+        cap = cv2.VideoCapture(0)
 
-        count_box.metric("👥 Crowd Count", int(round(count)))
+        while st.session_state.webcam_running:
 
-<<<<<<< HEAD
-        # -------- ALERT LOGIC ----------
-=======
-        # -------- ALERT ----------
->>>>>>> a3bab4b (final milestone 4 with email cooldown, webcam modes, video mode)
-        if count > threshold:
-            alert_box.error("⚠️ CROWD ALERT")
+            ret, frame = cap.read()
+            if not ret:
+                break
 
-            current_time = time.time()
+            o, d, ov, count = run_density(frame, is_webcam=True)
 
-            if current_time - st.session_state.last_alert_time > ALERT_COOLDOWN:
-                st.session_state.last_alert_time = current_time
+            orig_box.image(o, channels="BGR", caption="Original")
+            dens_box.image(d, channels="BGR", caption="Density Map")
+            over_box.image(ov, channels="BGR", caption="Overlay")
 
-                for e in get_emails():
-<<<<<<< HEAD
-                    try:
+            count_box.metric("👥 Crowd Count", int(round(count)))
+
+            if count > threshold:
+                alert_box.error("⚠️ CROWD ALERT")
+
+                current_time = time.time()
+
+                if current_time - st.session_state.last_alert_time > ALERT_COOLDOWN:
+                    st.session_state.last_alert_time = current_time
+
+                    for e in get_emails():
                         send_alert(e, count, ov)
-                    except Exception as ex:
-                        st.error(f"Email error: {ex}")
 
-        else:
-            alert_box.success("SAFE")
-=======
-                    send_alert(e, count, ov)
+            else:
+                alert_box.success("SAFE")
 
-        else:
-            alert_box.success("SAFE")
->>>>>>> a3bab4b (final milestone 4 with email cooldown, webcam modes, video mode)
+        cap.release()
