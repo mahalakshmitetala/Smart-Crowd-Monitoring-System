@@ -109,6 +109,9 @@ if input_mode == "Video File":
 # ==================================================
 # ================= WEBCAM MODE ====================
 # ==================================================
+#for webcam based monitoring
+#for locally hsoting webcam(runs only locally)
+#logic for web based webcam (runs in any cloud ) code in git repo
 if input_mode == "Live Webcam":
 
     camera = st.camera_input("Use Webcam")

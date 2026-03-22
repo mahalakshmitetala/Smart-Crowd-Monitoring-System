@@ -5,8 +5,12 @@ pillow
 scipy
 matplotlib
 gdown
+<<<<<<< HEAD
 
 torch --index-url https://download.pytorch.org/whl/cpu
 torchvision --index-url https://download.pytorch.org/whl/cpu
 
 ultralytics --no-deps
+=======
+ultralytics
+>>>>>>> 406bb34 (update requirements and UI)
