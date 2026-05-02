@@ -14,21 +14,20 @@ AI-based real-time crowd density estimation using webcam or uploaded videos. Gen
 - Automated email alerts with screenshot attachment
 
 ## Tech Stack
-Python · Streamlit · OpenCV · PyTorch · CSRNet · YOLOv8 · NumPy
-
-## Screenshots
-
-**Dashboard**
-![Dashboard](dashboard.png)
-
-**Video Frame Output**
-![Video Output](videoframes_output.png)
-
-**Email Alert**
-![Alert](email_alert.png)
+- Python
+- Streamlit
+- OpenCV
+- PyTorch
+- CSRNet (Deep Learning)
+- YOLOv8
+- NumPy
 
 ## Use Cases
-Railway stations · Religious gatherings · Stadiums · Smart city surveillance · Stampede prevention
+- Railway stations and bus terminals
+- Religious gatherings
+- Stadiums and concerts
+- Smart city surveillance
+- Stampede risk prevention
 
 ## Model
 CSRNet model hosted on [Hugging Face](https://huggingface.co/mahaa2805/CSRNet_for_crowdmonitoring)
