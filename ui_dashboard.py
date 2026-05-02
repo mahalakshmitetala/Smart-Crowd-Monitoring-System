@@ -25,7 +25,7 @@ if "video_done" not in st.session_state:
 if "last_alert_time" not in st.session_state:
     st.session_state.last_alert_time = 0
 
-ALERT_COOLDOWN = 15   # seconds (better for demo)
+ALERT_COOLDOWN = 15  # seconds
 
 # ---------------- SIDEBAR ----------------
 st.sidebar.header("📧 Alert Emails")
@@ -98,8 +98,10 @@ if input_mode == "Video File":
                     st.session_state.last_alert_time = current_time
 
                     for e in get_emails():
-                        send_alert(e, count, ov)
-
+                        try:
+                            send_alert(e, count, ov)
+                        except Exception as ex:
+                            st.error(f"Email error: {ex}")
             else:
                 alert_box.success("SAFE")
 
@@ -111,10 +113,6 @@ if input_mode == "Live Webcam":
     camera = st.camera_input("Use Webcam")
 
     if camera is not None:
-<<<<<<< HEAD
-        import time
-=======
->>>>>>> a3bab4b (final milestone 4 with email cooldown, webcam modes, video mode)
 
         image = Image.open(camera)
         frame = np.array(image)
@@ -127,11 +125,7 @@ if input_mode == "Live Webcam":
 
         count_box.metric("👥 Crowd Count", int(round(count)))
 
-<<<<<<< HEAD
-        # -------- ALERT LOGIC ----------
-=======
         # -------- ALERT ----------
->>>>>>> a3bab4b (final milestone 4 with email cooldown, webcam modes, video mode)
         if count > threshold:
             alert_box.error("⚠️ CROWD ALERT")
 
@@ -141,17 +135,9 @@ if input_mode == "Live Webcam":
                 st.session_state.last_alert_time = current_time
 
                 for e in get_emails():
-<<<<<<< HEAD
                     try:
                         send_alert(e, count, ov)
                     except Exception as ex:
                         st.error(f"Email error: {ex}")
-
         else:
             alert_box.success("SAFE")
-=======
-                    send_alert(e, count, ov)
-
-        else:
-            alert_box.success("SAFE")
->>>>>>> a3bab4b (final milestone 4 with email cooldown, webcam modes, video mode)
