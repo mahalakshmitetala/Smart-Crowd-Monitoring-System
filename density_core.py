@@ -22,9 +22,6 @@ def download_model():
         raise RuntimeError(f"Model download failed: {e}")
     if not os.path.exists(MODEL_PATH) or os.path.getsize(MODEL_PATH) < 1_000_000:
         raise FileNotFoundError("Model file missing or too small — download likely failed!")
-            for chunk in response.iter_content(chunk_size=8192):
-                if chunk:
-                    f.write(chunk)
 
     except Exception as e:
         raise RuntimeError(f"Model download failed: {e}")
