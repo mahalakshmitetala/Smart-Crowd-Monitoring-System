@@ -23,12 +23,6 @@ def download_model():
     if not os.path.exists(MODEL_PATH) or os.path.getsize(MODEL_PATH) < 1_000_000:
         raise FileNotFoundError("Model file missing or too small — download likely failed!")
 
-    except Exception as e:
-        raise RuntimeError(f"Model download failed: {e}")
-    # check if file actually downloaded
-    if not os.path.exists(MODEL_PATH):
-        raise FileNotFoundError("Model file not found after download!")
-
 # ---------------- ENSURE MODEL ----------------
 if not os.path.exists(MODEL_PATH) or os.path.getsize(MODEL_PATH) < 1_000_000:
     download_model()
@@ -55,40 +49,30 @@ SPARSE_CALIBRATION = 0.2
 
 # ---------------- MAIN FUNCTION ----------------
 def run_density(frame, is_webcam=False):
-
     resized = cv2.resize(frame, (640, 480))
     img = transform(resized).unsqueeze(0).to(device)
-
     with torch.no_grad():
         density = csrnet(img)[0, 0].cpu().numpy()
-
     csr_count = float(density.sum())
     yolo_count = count_people_yolo(frame)
 
-    # ---------- FUSION ----------
     if csr_count < 15:
         final_count = max(csr_count * SPARSE_CALIBRATION, yolo_count)
     elif csr_count < 60:
         final_count = 0.5 * (csr_count * SPARSE_CALIBRATION) + 0.5 * yolo_count
     else:
         final_count = min(csr_count, yolo_count * 5)
-
     final_count = max(0, final_count)
 
-    # ---------- VISUAL ----------
     if is_webcam:
         density_vis = cv2.GaussianBlur(density, (31, 31), 0)
     else:
         density_vis = cv2.GaussianBlur(density, (15, 15), 0)
-
     max_val = density_vis.max()
     density_norm = density_vis / max_val if max_val > 0 else density_vis
     density_norm = np.clip(density_norm, 0, 1)
-
     heatmap = np.uint8(255 * density_norm)
     heatmap = cv2.applyColorMap(heatmap, cv2.COLORMAP_JET)
     heatmap = cv2.resize(heatmap, (frame.shape[1], frame.shape[0]))
-
     overlay = cv2.addWeighted(frame, 0.6, heatmap, 0.4, 0)
-
     return frame, heatmap, overlay, final_count
