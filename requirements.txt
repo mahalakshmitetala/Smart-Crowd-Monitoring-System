@@ -1,10 +1,10 @@
 streamlit
 numpy
-opencv-python-headless
+opencv-python-headless==4.8.1.78
 pillow
 scipy
 matplotlib
 gdown
 torch
 torchvision
-ultralytics==8.0.20
+ultralytics
