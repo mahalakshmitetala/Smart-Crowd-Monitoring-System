@@ -30,7 +30,5 @@ AI-based real-time crowd density estimation using webcam or uploaded videos. Gen
 - Stampede risk prevention
 
 ## Model
-```markdown
 - Architecture: CSRNet (Crowd counting via density estimation)
 - Hosted on [Hugging Face](https://huggingface.co/mahaa2805/CSRNet_for_crowdmonitoring)
-```
