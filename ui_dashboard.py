@@ -1,3 +1,10 @@
+import os
+
+# Fix OpenCV issue on Streamlit Cloud
+os.system("pip uninstall -y opencv-python opencv-python-headless")
+os.system("pip install opencv-python-headless==4.8.1.78")
+os.environ["OPENCV_IO_ENABLE_OPENEXR"] = "1"
+
 import streamlit as st
 import cv2
 import numpy as np
