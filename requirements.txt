@@ -8,3 +8,4 @@ ultralytics
 gdown
 torch
 torchvision
+requests
