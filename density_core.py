@@ -43,7 +43,7 @@ if not os.path.exists(MODEL_PATH):
 # ---------------- LOAD MODEL ----------------
 try:
     csrnet = CustomCSRNet().to(device)
-    csrnet.load_state_dict(torch.load(MODEL_PATH, map_location=device))
+    csrnet.load_state_dict(torch.load(MODEL_PATH, map_location=device, weights_only=False))
     csrnet.eval()
 except Exception as e:
     raise RuntimeError(f"Model loading failed: {e}")
