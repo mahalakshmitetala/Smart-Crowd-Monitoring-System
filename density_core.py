@@ -15,17 +15,13 @@ MODEL_PATH = "best_finetuned.pth"
 MODEL_URL = "https://drive.google.com/uc?export=download&id=1GHhLvz9uZYnT9EOtqGHKi5sC7AQhO-F0"
 
 def download_model():
-    import requests
-
     print("Downloading model...")
-
-    url = "https://drive.google.com/uc?export=download&id=1GHhLvz9uZYnT9EOtqGHKi5sC7AQhO-F0"
-
     try:
-        response = requests.get(url, stream=True)
-        response.raise_for_status()
-
-        with open(MODEL_PATH, "wb") as f:
+        gdown.download(MODEL_URL, MODEL_PATH, quiet=False, fuzzy=True)
+    except Exception as e:
+        raise RuntimeError(f"Model download failed: {e}")
+    if not os.path.exists(MODEL_PATH) or os.path.getsize(MODEL_PATH) < 1_000_000:
+        raise FileNotFoundError("Model file missing or too small — download likely failed!")
             for chunk in response.iter_content(chunk_size=8192):
                 if chunk:
                     f.write(chunk)
@@ -37,7 +33,7 @@ def download_model():
         raise FileNotFoundError("Model file not found after download!")
 
 # ---------------- ENSURE MODEL ----------------
-if not os.path.exists(MODEL_PATH):
+if not os.path.exists(MODEL_PATH) or os.path.getsize(MODEL_PATH) < 1_000_000:
     download_model()
 
 # ---------------- LOAD MODEL ----------------
