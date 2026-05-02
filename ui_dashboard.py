@@ -25,7 +25,7 @@ if "video_done" not in st.session_state:
 if "last_alert_time" not in st.session_state:
     st.session_state.last_alert_time = 0
 
-ALERT_COOLDOWN = 15  # seconds
+ALERT_COOLDOWN = 15
 
 # ---------------- SIDEBAR ----------------
 st.sidebar.header("📧 Alert Emails")
@@ -82,9 +82,9 @@ if input_mode == "Video File":
 
             o, d, ov, count = run_density(frame, is_webcam=False)
 
-            orig_box.image(o, channels="BGR", caption="Original")
-            dens_box.image(d, channels="BGR", caption="Density Map")
-            over_box.image(ov, channels="BGR", caption="Overlay")
+            orig_box.image(o, channels="BGR")
+            dens_box.image(d, channels="BGR")
+            over_box.image(ov, channels="BGR")
 
             count_box.metric("👥 Crowd Count", int(round(count)))
 
@@ -105,6 +105,7 @@ if input_mode == "Video File":
             else:
                 alert_box.success("SAFE")
 
+            time.sleep(0.03)  # 🔥 prevents overload (IMPORTANT)
 
 # ================= WEBCAM MODE ====================
 
@@ -119,9 +120,9 @@ if input_mode == "Live Webcam":
 
         o, d, ov, count = run_density(frame, is_webcam=True)
 
-        orig_box.image(o, channels="BGR", caption="Original")
-        dens_box.image(d, channels="BGR", caption="Density Map")
-        over_box.image(ov, channels="BGR", caption="Overlay")
+        orig_box.image(o, channels="BGR")
+        dens_box.image(d, channels="BGR")
+        over_box.image(ov, channels="BGR")
 
         count_box.metric("👥 Crowd Count", int(round(count)))
 
