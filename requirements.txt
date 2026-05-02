@@ -6,3 +6,5 @@ scipy
 matplotlib
 ultralytics
 gdown
+torch
+torchvision
