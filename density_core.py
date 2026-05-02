@@ -12,16 +12,22 @@ device = torch.device("cpu")
 
 # ---------------- MODEL ----------------
 MODEL_PATH = "best_finetuned.pth"
-MODEL_URL = "https://drive.google.com/uc?export=download&id=1GHhLvz9uZYnT9EOtqGHKi5sC7AQhO-F0"
+MODEL_URL = "https://huggingface.co/mahaa2805/CSRNet_for_crowdmonitoring/resolve/main/best_finetuned.pth"
 
 def download_model():
+    import requests
     print("Downloading model...")
     try:
-        gdown.download(MODEL_URL, MODEL_PATH, quiet=False, fuzzy=True)
+        response = requests.get(MODEL_URL, stream=True)
+        response.raise_for_status()
+        with open(MODEL_PATH, "wb") as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:
+                    f.write(chunk)
     except Exception as e:
         raise RuntimeError(f"Model download failed: {e}")
     if not os.path.exists(MODEL_PATH) or os.path.getsize(MODEL_PATH) < 1_000_000:
-        raise FileNotFoundError("Model file missing or too small — download likely failed!")
+        raise FileNotFoundError("Model file missing or too small!")
 
 # ---------------- ENSURE MODEL ----------------
 if not os.path.exists(MODEL_PATH) or os.path.getsize(MODEL_PATH) < 1_000_000:
