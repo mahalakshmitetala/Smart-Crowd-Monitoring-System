@@ -23,7 +23,7 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("🚦 Smart Crowd Monitoring System")
+st.title("Smart Crowd Monitoring System")
 
 # ---------------- SESSION STATE ----------------
 if "video_done" not in st.session_state:
