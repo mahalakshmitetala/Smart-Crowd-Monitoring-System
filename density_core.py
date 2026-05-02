@@ -14,21 +14,24 @@ device = torch.device("cpu")
 MODEL_PATH = "best_finetuned.pth"
 MODEL_URL = "https://drive.google.com/uc?export=download&id=1GHhLvz9uZYnT9EOtqGHKi5sC7AQhO-F0"
 
-# ---------------- DOWNLOAD FUNCTION ----------------
 def download_model():
-    print("Downloading model from Google Drive...")
+    import requests
+
+    print("Downloading model...")
+
+    url = "https://drive.google.com/uc?export=download&id=1GHhLvz9uZYnT9EOtqGHKi5sC7AQhO-F0"
 
     try:
-        gdown.download(
-            MODEL_URL,
-            MODEL_PATH,
-            quiet=False,
-            fuzzy=True,
-            use_cookies=False
-        )
+        response = requests.get(url, stream=True)
+        response.raise_for_status()
+
+        with open(MODEL_PATH, "wb") as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:
+                    f.write(chunk)
+
     except Exception as e:
         raise RuntimeError(f"Model download failed: {e}")
-
     # check if file actually downloaded
     if not os.path.exists(MODEL_PATH):
         raise FileNotFoundError("Model file not found after download!")
